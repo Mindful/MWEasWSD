@@ -1,0 +1,6 @@
+head_name: "MWENegativeSenseCrossProductHead"
+head_arguments:
+  hidden_size: 768
+  item_reducer: "MeanReducer"
+  definition_reducer: "CLSReducer"
+

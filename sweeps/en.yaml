@@ -1,0 +1,44 @@
+program: scripts/training/train.py
+method: bayes
+metric:
+  name: val/epoch_f1
+  goal: maximize
+parameters:
+  # sweep params
+  lr:
+    values: [1e-3, 1e-4, 1e-5]
+  accumulate_grad_batches:
+    values: [2, 8, 16]
+  weight_decay:
+    values: [1e-5, 0]
+  dropout:
+    values: [0.1, 0]
+  swa:
+    values: [true, false]
+
+  # fixed params
+  gpus:
+    value: 1
+  gradient_clip_val:
+    value: 1.00
+  max_epochs:
+    value: 15
+  batch_size:
+    value: 16
+  enable_checkpointing:
+    value: false
+  encoder:
+    value: 'bert-base-uncased'
+  mwe_processing:
+    value: true
+  train_data_suffix:
+    value: 'fixed.annotated.autoneg'
+
+  # for use with poly
+#  head_config:
+#    value: 'configs/poly_distinct_codes_128.yaml'
+
+
+early_terminate:
+  type: hyperband
+  min_iter: 3

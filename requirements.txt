@@ -1,0 +1,24 @@
+# core
+torch~=1.10
+transformers~=4.1
+pytorch-lightning~=1.5
+torchmetrics~=0.7
+tqdm
+nltk~=3.6
+spacy==3.4.4
+
+# training/research
+gdown
+gitpython
+jsonlines
+matplotlib
+wandb~=0.12
+jupyter~=1.0
+lxml~=4.8
+scikit-learn~=1.1
+
+# japanese
+fugashi~=1.1
+ipadic==1.0.0
+unidic-lite~=1.0
+

@@ -1,0 +1,7 @@
+head_name: "PolyEncoder"
+head_arguments:
+  poly_type: "standard"
+  mwe_processing: True
+  num_codes: 128
+  hidden_size: 768
+  context_reduction: "ContextWindowReduction"
