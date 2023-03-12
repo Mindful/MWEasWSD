@@ -1,0 +1,39 @@
+program: train.py
+method: bayes
+metric:
+  name: val/epoch_f1
+  goal: maximize
+parameters:
+  # sweep params
+  lr:
+    values: [1e-3, 1e-4, 1e-5]
+  accumulate_grad_batches:
+    values: [2, 8, 16]
+  weight_decay:
+    values: [1e-5, 0]
+  dropout:
+    values: [0.1, 0.2]
+  include_single_definitions:
+    values: [true, false]
+  encoder:
+    values: ['bert-base-uncased', 'roberta-base', 'albert-base-v2']
+#  swa:
+#    values: [true, false]
+#  data:
+#    values: ['default', 'default_plus_omsti']
+
+  # fixed params
+  gpus:
+    value: 1
+  gradient_clip_val:
+    value: 1.00
+  max_epochs:
+    value: 15
+  batch_size:
+    value: 16
+  enable_checkpointing:
+    value: false
+
+early_terminate:
+  type: hyperband
+  min_iter: 3
