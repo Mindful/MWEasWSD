@@ -1,5 +1,5 @@
 # MWE as WSD
-Repo for the paper `MWE as WSD: Solving Multi-Word Expression Identification with Word
+Repo for the paper `MWE as WSD: Solving Multiword Expression Identification with Word
 Sense Disambiguation`.
 
 ## Installation
