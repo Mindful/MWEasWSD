@@ -6,13 +6,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="resolve",
     version="0.1",
-    author="Joshua Tanner, Jacob Hoffman",
-    author_email="mindful.jt@gmail.com",
+    author="<anonymized>",
+    author_email="<anonymized>",
     description="Look up words and multi-word expressions in context",
     keywords=['WSD', 'word sense disambiguation' 'MWE', 'dictionary'],
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Mindful/MWEasWSD",
+    url="<anonymized>",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",

@@ -47,12 +47,7 @@ python scripts/preprocessing/auto_add_negative_mwes.py data/WSD_Evaluation_Frame
 ## Model download
 Pre-trained models can be downloaded from the Hugging Face Hub. 
 
-| Data                    | Architecture     | Download                                        |
-|-------------------------|------------------|-------------------------------------------------|
-| SemCor                  | Bi-encoder       | https://huggingface.co/Jotanner/mweaswsd        |
-| SemCor + PARSEME/DiMSUM | Bi-encoder       | https://huggingface.co/Jotanner/mweaswsd-ft     |
-| SemCor                  | DCA Poly-encoder | https://huggingface.co/Jotanner/mweaswsd-dca    |
-| SemCor + PARSEME/DiMSUM | DCA Poly-encoder | https://huggingface.co/Jotanner/mweaswsd-dca-ft |
+> Links removed to preserve anonymity. 
 
 ## Training
 
