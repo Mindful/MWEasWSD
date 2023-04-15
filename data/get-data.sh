@@ -1,5 +1,3 @@
-# run this from bunmyaku/data
-
 # http://lcl.uniroma1.it/wsdeval/
 wget http://lcl.uniroma1.it/wsdeval/data/WSD_Evaluation_Framework.zip
 unzip -q WSD_Evaluation_Framework.zip
