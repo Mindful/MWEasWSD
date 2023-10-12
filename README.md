@@ -17,8 +17,7 @@ cd data && ./get-data.sh
 While our repository contains all the code necessary to add
 synthetic negative examples to the SemCor data, we also make the fully
 processed data with synthetic negatives and our annotations available
-in the `data/augmented` directory - it can be downloaded with `git lfs`.
-Note that the data has been converted to a JSON format. 
+in the `data/augmented` directory. Note that the data has been converted to a JSON format. 
 If you use the SemCor data in any capacity, please cite the original 
 authors as mentioned [here](http://lcl.uniroma1.it/wsdeval/training-data).
 
