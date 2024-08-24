@@ -2,10 +2,11 @@
 torch~=1.10
 transformers~=4.1
 pytorch-lightning~=1.5
-torchmetrics~=0.7
+torchmetrics~=0.10.0  # Upgraded to avoid "TypeError: F1Score.__new__() missing 1 required positional argument: 'task'"
 tqdm
 nltk~=3.6
 spacy==3.4.4
+numpy<2  # Downgraded to avoid "A module that was compiled using NumPy 1.x cannot be run in NumPy 2.0.1 as it may crash"
 
 # training/research
 gdown

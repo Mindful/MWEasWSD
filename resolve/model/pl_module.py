@@ -96,6 +96,16 @@ class ContextDictionaryBiEncoder(pl.LightningModule):
 
         self.mwe_eval_pipelines = []
 
+    def on_load_checkpoint(self, checkpoint):
+        # See https://github.com/Mindful/MWEasWSD/issues/2
+        keys_to_delete = [
+            'context_encoder.embeddings.position_ids',
+            'definition_encoder.embeddings.position_ids',
+        ]
+        for key in keys_to_delete:
+            if key in checkpoint['state_dict']:
+                del checkpoint['state_dict'][key]
+
     def _compute_item_instances(self, context_ids: Tensor, context_embeddings: Tensor, item_ids: Tensor,
                                 sense_keys: Tensor, labels: Optional[Tensor], mwe: bool) -> List[List[ItemInstance]]:
         """Computes item instances for the entire batch, so tensors are of shape B x N or B x K
@@ -320,4 +330,3 @@ class ContextDictionaryBiEncoder(pl.LightningModule):
         self.log(f'val/{name}/mwe_filter{suffix}_tp', word_results['1']['precision'])
         self.log(f'val/{name}/mwe_filter{suffix}_tn', word_results['0']['precision'])
         self.log(f'val/{name}/mwe_filter{suffix}_pos', results['mwe_hyp_pos_rate'])
-
