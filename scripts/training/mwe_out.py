@@ -42,8 +42,8 @@ def main():
         new_filters = str([x.__class__.__name__ for x in evaluator.pipeline.filters])
         print('filters:', old_filters, '-', set(args.ban_filters), '=', new_filters)
 
-    if 'cupt' in args.data:
-        filename = f'{args.data}_hyp.cupt'
+    if 'cupt' in args.data or 'coam' in args.data:
+        filename = f'{args.data}_hyp.cupt'  # This is not used
         iterator = evaluator.cupt_lines()
     elif 'streusle' in args.data:
         raise RuntimeError("STREUSLE implementation not finished and doesn't currently work")

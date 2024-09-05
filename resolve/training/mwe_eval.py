@@ -215,6 +215,7 @@ class CuptMWEEvaluator(MWEEvaluator):
         if kwargs.get('no_filters', False):
             filters = [SpecificPOSOnly({'v'})]
         else:
+            # Note that non-verb MWEs are filtered out
             filters = [OrderedOnly(), MaxGappiness(3), SpecificPOSOnly({'v'})]
             if model is not None:
                 filters.append(ModelOutputIsMWE())
@@ -379,9 +380,34 @@ class DimSumMWEEvaluator(MWEEvaluator):
             filters=filters,
             resolver=resolver,
             model=model,
-            additional_detectors=[DimSumSequentialNounDetector()]
+            # additional_detectors=[DimSumSequentialNounDetector()] # Detect MW proper nouns
         )
         super(DimSumMWEEvaluator, self).__init__(pipeline, data, **kwargs)
+
+    # Enable reading the test data in the PARSEME format
+    def cupt_lines(self, disable_printing: bool = False) -> Iterable[str]:
+        column_names = ['id', 'form', 'lemma', 'upos', 'xpos', 'feats', 'head', 'deprel', 'deps', 'misc', 'mwe']
+        label_iter = iter(self._yield_labels())
+
+        gold_labels = []
+        predicted_labels = []
+
+        yield '# global.columns = ID FORM LEMMA UPOS XPOS FEATS HEAD DEPREL DEPS MISC PARSEME:MWE\n'
+        for sentence in self.data:
+            yield f'# source_sent_id = . . {sentence.metadata["id"]}\n'
+            yield f'# text = {sentence.original_text}\n'
+            for word in sentence:
+                predicted_label, gold_label = next(label_iter)
+                gold_labels.append(gold_label)
+                predicted_labels.append(predicted_label)
+                row_data = [word.word_sense_data.metadata[colname] for colname in column_names]
+                row_data[-1] = str(predicted_label) if predicted_label != 0 else '*'
+                yield '\t'.join(row_data) + '\n'
+
+            yield '\n'
+
+        if not disable_printing:
+            print(self._compute_aligned_eval_output(gold_labels, predicted_labels))
 
     def dimsum_lines(self, disable_printing: bool = False) -> Iterable[str]:
         column_names = ['idx', 'word', 'lemma', 'pos', 'mwe_tag', 'parent_idx', 'unused', 'supersense', 'sent_id']
@@ -450,6 +476,9 @@ class MWEEvalData(Enum):
     CUPT_SAMPLE = 'cupt_sample'
     DIMSUM_SAMPLE = 'dimsum_sample'
 
+    COAM_TRAIN = 'coam_train'
+    COAM_TEST = 'coam_test'
+
     def get_evaluator(self, model: Optional[ContextDictionaryBiEncoder], max_count: Optional[int] = None,
                       **kwargs) -> MWEEvaluator:
         dataset_file, evaluator_class = DATASET_TUPLE_DICT[self]
@@ -467,11 +496,25 @@ DATASET_TUPLE_DICT = {
     MWEEvalData.CUPT_TRAIN: (DATA_DIR / 'cupt_train.jsonl', CuptMWEEvaluator),
     MWEEvalData.CUPT_TEST: (DATA_DIR / 'cupt_test.jsonl', CuptMWEEvaluator),
     MWEEvalData.KULKARNI: (DATA_DIR / 'kulkarni.jsonl', KulkarniMWEEvaluator),
-    MWEEvalData.KULKARNI_SAMPLE: (DATA_DIR / 'kulkarni_sample.jsonl', KulkarniMWEEvaluator),
+    MWEEvalData.KULKARNI_SAMPLE: (
+        DATA_DIR / 'kulkarni_sample.jsonl',
+        KulkarniMWEEvaluator,
+    ),
     MWEEvalData.CUPT_SAMPLE: (DATA_DIR / 'cupt_train_dev.jsonl', CuptMWEEvaluator),
     MWEEvalData.STREUSLE_DEV: (DATA_DIR / 'streusle_dev.jsonl', CuptMWEEvaluator),
     MWEEvalData.STREUSLE_TEST: (DATA_DIR / 'streusle_test.jsonl', CuptMWEEvaluator),
     MWEEvalData.DIMSUM_TEST: (DATA_DIR / 'dimsum_test.jsonl', DimSumMWEEvaluator),
     MWEEvalData.DIMSUM_TRAIN: (DATA_DIR / 'dimsum_train.jsonl', DimSumMWEEvaluator),
-    MWEEvalData.DIMSUM_SAMPLE: (DATA_DIR / 'dimsum_train_dev.jsonl', DimSumMWEEvaluator)
+    MWEEvalData.DIMSUM_SAMPLE: (
+        DATA_DIR / 'dimsum_train_dev.jsonl',
+        DimSumMWEEvaluator,
+    ),
+    MWEEvalData.COAM_TRAIN: (
+        Path('../data/50_mweaswsd/coam_train.tanner.jsonl'),
+        DimSumMWEEvaluator,
+    ),
+    MWEEvalData.COAM_TEST: (
+        Path('../data/50_mweaswsd/coam_test.tanner.jsonl'),
+        DimSumMWEEvaluator,
+    ),
 }

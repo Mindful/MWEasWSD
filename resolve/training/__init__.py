@@ -44,10 +44,15 @@ MIXED_FINETUNE = {
     'dev': [DATA_DIR / 'dryrun'],  # not used
     'test': [DATA_DIR / 'dryrun']  # not used
 }
-
 MIXED_TRAIN = {
     'train': [WSD_PATH / 'Training_Corpora/SemCor'] + MIXED_FINETUNE['train'],
     'dev': [eval_path / 'semeval2007'],
     'test': [eval_path / 'semeval2013', eval_path / 'semeval2015',
              eval_path / 'senseval2', eval_path / 'senseval3']
+}
+
+COAM_FINETUNE = {
+    'train': [DATA_DIR / 'coam_train'],
+    'dev': [DATA_DIR / 'dryrun'],  # not used
+    'test': [DATA_DIR / 'dryrun'],  # not used
 }
