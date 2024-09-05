@@ -16,8 +16,8 @@ rm *.tgz
 
 wget http://projects.csail.mit.edu/jmwe/download.php?f=mweindex_wordnet3.0_semcor1.6.data -O mweindex_wordnet3.0_semcor1.6.data
 
-cd ..
+# cd ..
 
 python -m spacy download en_core_web_sm
 
-git clone git@github.com:dimsum16/dimsum-data.git
+git clone https://github.com/dimsum16/dimsum-data.git
